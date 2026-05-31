@@ -1,0 +1,46 @@
+table DimUser
+	lineageTag: b703c971-ed07-48b8-a83f-5b4836ade7d5
+
+	column Email
+		dataType: string
+		lineageTag: 217bb7d5-29a5-42ee-afc8-2d6f8b9454b4
+		summarizeBy: none
+		sourceColumn: Email
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: a7d3afe3-d5d1-45a8-9e88-50ce965c778e
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 7105b476-7944-475a-baab-416b408f768f
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Role
+		dataType: string
+		lineageTag: 2c8166e9-1fb3-4f3f-816c-e1608ca7c73d
+		summarizeBy: none
+		sourceColumn: Role
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimUser = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("JYoxCsMwEAS/Eq629QanSMCFm7RCxSGtzYF0gpMU8vwoBKbYWcZ7OlHE1dFaHRtOgzhFp4X2jDVhfRprxPR7KqLSunGXqvN44ZqD8+1g5QtGYfHEv2rTasnQWbKLtcz2z+ODOLq8QSF8AQ==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Email = _t, Region = _t, Category = _t, Role = _t]),
+				    #"Type modifié" = Table.TransformColumnTypes(Source,{{"Email", type text}, {"Region", type text}, {"Category", type text}, {"Role", type text}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_ResultType = Table
+

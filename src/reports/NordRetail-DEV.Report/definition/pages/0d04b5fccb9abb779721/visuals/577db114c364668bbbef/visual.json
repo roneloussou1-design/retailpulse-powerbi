@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "577db114c364668bbbef",
+  "position": {
+    "x": 952.31879930987122,
+    "y": 15.094390190790467,
+    "z": 3000,
+    "height": 279.93232717465958,
+    "width": 279.93232717465958,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactInventory"
+                    }
+                  },
+                  "Property": "Days of Stock"
+                }
+              },
+              "queryRef": "FactInventory.Days of Stock",
+              "nativeQueryRef": "Days of Stock"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FactInventory"
+                  }
+                },
+                "Property": "Days of Stock"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9ca097df952c7dd68e69",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FactInventory"
+              }
+            },
+            "Property": "Days of Stock"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

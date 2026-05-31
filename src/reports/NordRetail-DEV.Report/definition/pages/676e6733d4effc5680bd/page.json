@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "676e6733d4effc5680bd",
+  "displayName": "Stocks",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280
+}

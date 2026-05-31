@@ -1,0 +1,81 @@
+table DimStore
+	lineageTag: f8b21ded-e07e-4197-a68d-ae2e558cb3cb
+
+	column StoreKey
+		dataType: int64
+		formatString: 0
+		lineageTag: e560bed9-71bf-4a91-8cc8-b3e57a983d01
+		summarizeBy: none
+		sourceColumn: StoreKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreName
+		dataType: string
+		lineageTag: 149ba8e0-6dbc-45b5-abef-725245758495
+		summarizeBy: none
+		sourceColumn: StoreName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 1440d51b-850b-4eab-99ca-42f89bedee79
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: fd70dcfa-7439-43d6-a49b-de19f95e670f
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Format
+		dataType: string
+		lineageTag: 50f11122-f50a-41d2-8fee-8974f99ce9de
+		summarizeBy: none
+		sourceColumn: Format
+
+		annotation SummarizationSetBy = Automatic
+
+	column Surface
+		dataType: int64
+		formatString: 0
+		lineageTag: 25ac1fe0-7b92-4341-8082-7a7c102b93bf
+		summarizeBy: sum
+		sourceColumn: Surface
+
+		annotation SummarizationSetBy = Automatic
+
+	column OpeningDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b0ef37ae-3b8e-4a55-b6a9-acfda75ea534
+		summarizeBy: none
+		sourceColumn: OpeningDate
+
+		variation Variation
+			isDefault
+			relationship: fe9b6d32-0be9-49c2-a1d4-698dc3cfa67b
+			defaultHierarchy: LocalDateTable_21efeca4-e428-4580-bbcb-e15527515047.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition DimStore = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\USER\Downloads\nordretail_csv\nordretail_csv\DimStore.csv"),[Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"StoreKey", Int64.Type}, {"StoreName", type text}, {"Region", type text}, {"Country", type text}, {"Format", type text}, {"Surface", Int64.Type}, {"OpeningDate", type date}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_ResultType = Table
+

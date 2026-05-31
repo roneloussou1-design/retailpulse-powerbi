@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "NordRetail-DEV"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e30d0d5d-b7fc-4c7f-bd35-af610fe05077"
+  }
+}

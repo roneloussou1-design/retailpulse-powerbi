@@ -1,0 +1,81 @@
+table DimCustomer
+	lineageTag: cc574957-961d-41ca-863b-e379b22672a3
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 901fb5ef-9db7-4fbe-8779-644a037f430b
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstName
+		dataType: string
+		lineageTag: 472486df-92d8-4d65-acfe-25f1be35daa7
+		summarizeBy: none
+		sourceColumn: FirstName
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastName
+		dataType: string
+		lineageTag: f0a1163c-c374-4dff-804f-ee7c81c49661
+		summarizeBy: none
+		sourceColumn: LastName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Email
+		dataType: string
+		lineageTag: cd33329b-bad8-47a3-a6d1-cd15313ae132
+		summarizeBy: none
+		sourceColumn: Email
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: b544bccd-cff1-4ffc-bde0-a97407f6913d
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column AcquisitionChannel
+		dataType: string
+		lineageTag: 0c291f0f-76d5-4157-8b59-b2a26d5614d2
+		summarizeBy: none
+		sourceColumn: AcquisitionChannel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: bdd4cfe2-e746-4d4c-ad6d-010ceecfb81e
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column RFMScore
+		dataType: int64
+		formatString: 0
+		lineageTag: 861d1062-9516-4e76-b323-be99f564685a
+		summarizeBy: sum
+		sourceColumn: RFMScore
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCustomer = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\USER\Downloads\nordretail_csv\nordretail_csv\DimCustomer.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"CustomerKey", Int64.Type}, {"FirstName", type text}, {"LastName", type text}, {"Email", type text}, {"Region", type text}, {"AcquisitionChannel", type text}, {"Segment", type text}, {"RFMScore", Int64.Type}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,104 @@
+table FactCustomerEvents
+	lineageTag: d6829d51-74dc-4095-a959-e40e8864f05f
+
+	/// Nombre de clients ayant effectué au moins un achat
+	measure 'Active Customers' = DISTINCTCOUNT(FactSales[CustomerKey])
+		formatString: 0
+		displayFolder: 03-Customer
+		lineageTag: 17204ee8-a368-4d08-afb9-66d344b06f5a
+
+	measure 'Repeat Customers' = CALCULATE(DISTINCTCOUNT(FactCustomerEvents[CustomerKey]), FactCustomerEvents[EventType] = "Repeat")
+		formatString: 0
+		displayFolder: 03-Customer
+		lineageTag: d87cb80c-cb99-4a58-b6e1-6b010530edbc
+
+	/// Taux de rétention des clients
+	measure 'Customer Retention Rate'
+		displayFolder: 03-Customer
+		lineageTag: 8792c620-e5ef-46ea-aada-7b91152da34a
+
+	measure 'Average LTV' = AVERAGE(FactCustomerEvents[LTV])
+		formatString: 0
+		lineageTag: d959c0ef-e702-42e6-8cfa-3b2514aff480
+
+	measure Churn = CALCULATE(DISTINCTCOUNT(FactCustomerEvents[CustomerKey]), FactCustomerEvents[EventType] = "Churn")
+		formatString: 0
+		lineageTag: 67db7e86-3cfb-4636-81d3-401685829179
+
+	column EventKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 764eedd4-0f5c-4191-ba3c-198e81d1c118
+		summarizeBy: count
+		sourceColumn: EventKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 37c5a616-97d8-4147-9ff9-3db306ffd459
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 100f53a7-a30e-48dd-bed2-390da9754a89
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b440a9e9-4816-4c4f-89ba-7a0e3aea0be9
+		summarizeBy: none
+		sourceColumn: StoreKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventType
+		dataType: string
+		lineageTag: 4cc0017f-6c16-46e2-be24-5bbfe7f21cbf
+		summarizeBy: none
+		sourceColumn: EventType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel
+		dataType: string
+		lineageTag: 2eb27f10-b565-451d-b4b0-8d17d812d15e
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column LTV
+		dataType: double
+		lineageTag: e158bbb5-b996-45bb-96bc-62049bdb7ab3
+		summarizeBy: sum
+		sourceColumn: LTV
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactCustomerEvents = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\USER\Downloads\nordretail_csv\nordretail_csv\FactCustomerEvents.csv"),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"EventKey", Int64.Type}, {"DateKey", Int64.Type}, {"CustomerKey", Int64.Type}, {"StoreKey", Int64.Type}, {"EventType", type text}, {"Channel", type text}, {"LTV", type text}}),
+				    #"Type modifié avec paramètres régionaux" = Table.TransformColumnTypes(#"Type modifié", {{"LTV", type number}}, "en-US")
+				in
+				    #"Type modifié avec paramètres régionaux"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

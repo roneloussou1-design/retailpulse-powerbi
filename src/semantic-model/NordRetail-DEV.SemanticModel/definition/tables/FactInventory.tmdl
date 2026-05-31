@@ -1,0 +1,105 @@
+table FactInventory
+	lineageTag: c7fde05b-4f8b-418f-a76a-3f07caf3cb85
+
+	/// Niveau de stock total disponible
+	measure 'Stock Level' = SUM(FactInventory[StockLevel])
+		formatString: 0
+		displayFolder: 04-Operations
+		lineageTag: e80fb1f9-1677-47ef-84c6-ac570af4b6ec
+
+	/// Nombre moyen de jours de couverture de stock
+	measure 'Days of Stock' = AVERAGE(FactInventory[DaysOfStock])
+		formatString: 0
+		displayFolder: 04-Operations
+		lineageTag: 50edde58-f621-481f-a9fb-d4ae46009dd0
+
+	measure 'Out of Stock Products' = ```
+			CALCULATE(DISTINCTCOUNT(FactInventory[ProductKey]), FactInventory[StockLevel] = 0) 
+			```
+		formatString: 0
+		displayFolder: 04-Operations
+		lineageTag: d4c1011d-1191-48ce-81a9-1936bd7b1b12
+
+	measure 'Stock Coverage Alert' = IF([Days of Stock] < 7, "Alert", "OK")
+		displayFolder: 04-Operations
+		lineageTag: 1dd19958-e2d8-424d-9e6c-8526b81796c7
+
+	column InventoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 6f5acd3f-7690-495d-88db-5a67f198d765
+		summarizeBy: count
+		sourceColumn: InventoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 31a62b70-814e-40a7-9c4c-835acb341d2e
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 839fc800-502c-4561-bdab-7faa363db29b
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 6a853167-86a7-4469-93ef-5c6a4ec4a243
+		summarizeBy: none
+		sourceColumn: StoreKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column StockLevel
+		dataType: int64
+		formatString: 0
+		lineageTag: 61b5975d-458e-47e0-833c-4a17ea7bdd92
+		summarizeBy: sum
+		sourceColumn: StockLevel
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysOfStock
+		dataType: double
+		lineageTag: b02d3779-9a7b-4eba-b05f-05626e0e59bf
+		summarizeBy: sum
+		sourceColumn: DaysOfStock
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ReorderThreshold
+		dataType: int64
+		formatString: 0
+		lineageTag: b4164a68-efc6-4a0f-9fa9-638ca99c8f6a
+		summarizeBy: sum
+		sourceColumn: ReorderThreshold
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactInventory = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\USER\Downloads\nordretail_csv\nordretail_csv\FactInventory.csv"),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"InventoryKey", Int64.Type}, {"DateKey", Int64.Type}, {"ProductKey", Int64.Type}, {"StoreKey", Int64.Type}, {"StockLevel", Int64.Type}, {"DaysOfStock", type text}, {"ReorderThreshold", Int64.Type}}),
+				    #"Type modifié avec paramètres régionaux" = Table.TransformColumnTypes(#"Type modifié", {{"DaysOfStock", type number}}, "en-US")
+				in
+				    #"Type modifié avec paramètres régionaux"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,195 @@
+table FactSales
+	lineageTag: b621669d-7157-42d8-8e64-f1bb4474eb98
+
+	/// Chiffre d'affaires total des ventes
+	measure 'Total Revenue' = SUM(FactSales[SalesRevenue])
+		displayFolder: 01-Sales
+		lineageTag: 1528c44e-ffae-40dd-ba3f-20e798e4acdd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantity Sold' = ```
+			SUM(FactSales[SalesQuantity]) 
+			```
+		formatString: 0
+		displayFolder: 01-Sales
+		lineageTag: af0fdf0d-5d23-45ca-aed4-8d90371d11bf
+
+	measure 'Total Cost' = SUM(FactSales[SalesCost])
+		displayFolder: 01-Sales
+		lineageTag: 5902b0b5-7382-45b9-8717-be7fbd1bca80
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Margin' = SUM(FactSales[SalesMargin])
+		displayFolder: 01-Sales
+		lineageTag: 36677338-1719-49fd-8a59-4e912ef1ef1b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Taux de marge brute
+	measure 'Gross Margin %' = DIVIDE([Total Margin], [Total Revenue])
+		displayFolder: 01-Sales
+		lineageTag: db23359e-dc00-4c4f-a36f-a37583d12b32
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Chiffre d'affaires de l'année précédente
+	measure 'Revenue LY' = CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(DimDate[Date]))
+		displayFolder: 02-Time Intelligence
+		lineageTag: bfeb3119-13d0-4c7f-8b2d-362fec7ba90b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue YoY' = [Total Revenue] - [Revenue LY]
+		displayFolder: 02-Time Intelligence
+		lineageTag: a8ef0e4b-3e42-4859-9c09-c64c7f095b95
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue YoY %' = DIVIDE([Revenue YoY], [Revenue LY])
+		displayFolder: 02-Time Intelligence
+		lineageTag: 78cbafda-6f87-40e6-aaad-5d95bb6da7d3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Chiffre d'affaires cumulé depuis le début de l'année
+	measure 'Revenue YTD' = TOTALYTD([Total Revenue], DimDate[Date])
+		displayFolder: 02-Time Intelligence
+		lineageTag: a0ed18c1-eabb-4707-84ea-7a43d4993b97
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SalesKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 288fa9c4-310a-4ad1-bacb-f4a0619b726b
+		summarizeBy: count
+		sourceColumn: SalesKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: fadc545e-aa57-472f-b0f5-035d63896500
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 45ef30db-ed83-4891-8505-da570e47b63a
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 2c034688-bb3b-4296-936a-66474314a46b
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreKey
+		dataType: int64
+		formatString: 0
+		lineageTag: d5feaddb-2e16-4650-b903-00f987ac7af0
+		summarizeBy: none
+		sourceColumn: StoreKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 95c3b4f9-4b9a-4d5a-ab4b-6590a9508f91
+		summarizeBy: none
+		sourceColumn: PromotionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 6ef2da73-8692-4308-bbd4-7d85af26e76f
+		summarizeBy: sum
+		sourceColumn: SalesQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesUnitPrice
+		dataType: double
+		lineageTag: 5f530d0f-fe73-45a2-b440-0a315ec565e3
+		summarizeBy: sum
+		sourceColumn: SalesUnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SalesDiscount
+		dataType: double
+		lineageTag: 731b6089-affc-4312-9a20-f9cc1407e245
+		summarizeBy: sum
+		sourceColumn: SalesDiscount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SalesRevenue
+		dataType: double
+		lineageTag: c7814541-7162-4b16-8198-0a308ee45e68
+		summarizeBy: sum
+		sourceColumn: SalesRevenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SalesCost
+		dataType: double
+		lineageTag: dbcb125c-4567-4b40-82e9-1a123626395a
+		summarizeBy: sum
+		sourceColumn: SalesCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SalesMargin
+		dataType: double
+		lineageTag: a3437f4d-313d-45fb-b1dc-1420c132e220
+		summarizeBy: sum
+		sourceColumn: SalesMargin
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactSales = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\USER\Downloads\FactSales.csv"),[Delimiter=",", Columns=12, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"SalesKey", Int64.Type}, {"DateKey", Int64.Type}, {"ProductKey", Int64.Type}, {"CustomerKey", Int64.Type}, {"StoreKey", Int64.Type}, {"PromotionKey", Int64.Type}, {"SalesQuantity", Int64.Type}, {"SalesUnitPrice", type text}, {"SalesDiscount", type text}, {"SalesRevenue", type text}, {"SalesCost", type text}, {"SalesMargin", type text}}),
+				    #"Type modifié avec paramètres régionaux" = Table.TransformColumnTypes(#"Type modifié", {{"SalesRevenue", type text}}, "en-US"),
+				    #"Type modifié avec paramètres régionaux1" = Table.TransformColumnTypes(#"Type modifié avec paramètres régionaux", {{"SalesCost", type number}}, "en-US"),
+				    #"Type modifié avec paramètres régionaux2" = Table.TransformColumnTypes(#"Type modifié avec paramètres régionaux1", {{"SalesRevenue", type number}}, "en-US"),
+				    #"Type modifié avec paramètres régionaux3" = Table.TransformColumnTypes(#"Type modifié avec paramètres régionaux2", {{"SalesMargin", type number}}, "en-US"),
+				    #"Type modifié avec paramètres régionaux4" = Table.TransformColumnTypes(#"Type modifié avec paramètres régionaux3", {{"SalesDiscount", type number}}, "en-US"),
+				    #"Type modifié avec paramètres régionaux5" = Table.TransformColumnTypes(#"Type modifié avec paramètres régionaux4", {{"SalesUnitPrice", type number}}, "en-US")
+				in
+				    #"Type modifié avec paramètres régionaux5"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

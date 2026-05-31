@@ -1,0 +1,140 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "ebd048636a5d803c9252",
+  "position": {
+    "x": 813.72485301261338,
+    "y": 0,
+    "z": 2,
+    "height": 279.93232717465958,
+    "width": 279.93232717465958,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactCustomerEvents"
+                    }
+                  },
+                  "Property": "Channel"
+                }
+              },
+              "queryRef": "FactCustomerEvents.Channel",
+              "nativeQueryRef": "Channel"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactCustomerEvents"
+                    }
+                  },
+                  "Property": "Repeat Customers"
+                }
+              },
+              "queryRef": "FactCustomerEvents.Repeat Customers",
+              "nativeQueryRef": "Repeat Customers"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactCustomerEvents"
+                    }
+                  },
+                  "Property": "Active Customers"
+                }
+              },
+              "queryRef": "FactCustomerEvents.Active Customers",
+              "nativeQueryRef": "Active Customers"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactCustomerEvents"
+                    }
+                  },
+                  "Property": "Customer Retention Rate"
+                }
+              },
+              "queryRef": "FactCustomerEvents.Customer Retention Rate",
+              "nativeQueryRef": "Customer Retention Rate"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "038e1814cc519dc78a91",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FactCustomerEvents"
+              }
+            },
+            "Property": "Channel"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "7fc4f23af9969225f76c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FactCustomerEvents"
+              }
+            },
+            "Property": "Repeat Customers"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "88bf16adb48d15a4f7a1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FactCustomerEvents"
+              }
+            },
+            "Property": "Active Customers"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3c73aad0b124db330c1f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FactCustomerEvents"
+              }
+            },
+            "Property": "Customer Retention Rate"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

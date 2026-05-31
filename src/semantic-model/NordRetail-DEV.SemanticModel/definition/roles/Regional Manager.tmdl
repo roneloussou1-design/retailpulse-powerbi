@@ -1,0 +1,7 @@
+role 'Regional Manager'
+	modelPermission: read
+
+	tablePermission DimStore = [Region] = LOOKUPVALUE(DimUser[Region], DimUser[Email], USERPRINCIPALNAME())
+
+	annotation PBI_Id = ff35142bc44c4ecd8701b4e7fb87feb0
+

@@ -1,0 +1,80 @@
+table DimProduct
+	lineageTag: 1915c8a8-8fec-4446-99ff-6a60c68a11a6
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 7be8b4f3-0d5d-4eff-ac83-a5d64b06e7ed
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU
+		dataType: string
+		lineageTag: 6de30198-df65-4911-b366-95806f9d19a3
+		summarizeBy: none
+		sourceColumn: SKU
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 7622fdc2-a38e-41cd-9980-92eea4a69d24
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: e6f073e5-d3f5-44bd-b770-5746ecc9cd08
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubCategory
+		dataType: string
+		lineageTag: c55fb5b0-8e8a-419a-8eab-a9292d6c6eca
+		summarizeBy: none
+		sourceColumn: SubCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: e3588481-e535-4f27-8d73-a845650fe0b6
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: string
+		lineageTag: 0b5db95f-3bed-4dfd-8340-fab53e43492a
+		summarizeBy: none
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCost
+		dataType: string
+		lineageTag: f372ade4-765d-4159-a855-9c32bc05f2d6
+		summarizeBy: none
+		sourceColumn: UnitCost
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimProduct = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\USER\Downloads\nordretail_csv\nordretail_csv\DimProduct.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"ProductKey", Int64.Type}, {"SKU", type text}, {"ProductName", type text}, {"Category", type text}, {"SubCategory", type text}, {"Brand", type text}, {"UnitPrice", type text}, {"UnitCost", type text}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_ResultType = Table
+

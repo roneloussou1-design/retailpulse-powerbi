@@ -1,0 +1,108 @@
+table DimDate
+	lineageTag: e04fdc86-945a-4576-be27-76705aa9827f
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 079e37eb-6ea6-4e6f-8761-263ce0ebcec2
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 04173511-76a2-4021-82d8-85a85505b9fd
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: cb4aeccd-61c7-44b8-ae6e-b42f87841b5c
+			defaultHierarchy: LocalDateTable_3141aaae-aad9-4339-b7c6-90e92ec6e155.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: e45011aa-6d8b-445f-8221-c1585d19a47b
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		lineageTag: bef443a9-94db-4091-8d06-a2c429cd413c
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 89490665-ceac-4e25-a2f7-0f36d54f3961
+		summarizeBy: sum
+		sourceColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: 398699d7-2226-4bf3-aeea-6cdeefbf52ad
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9fd00c6c-ecf8-4192-9079-b31a73c5edaa
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		variation Variation
+			isDefault
+			relationship: 1016124b-4074-4ed9-ac9f-ba46bcf1a32e
+			defaultHierarchy: LocalDateTable_865e709b-9a31-4968-8fe0-286b08a5b8d7.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Week
+		dataType: int64
+		formatString: 0
+		lineageTag: b62cdd96-cf57-47f1-a462-350b0941baf5
+		summarizeBy: sum
+		sourceColumn: Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 97cb4fa9-f703-4d92-8bc1-fae8cc653685
+		summarizeBy: none
+		sourceColumn: IsWeekend
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDate = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\USER\Downloads\nordretail_csv\nordretail_csv\DimDate.csv"),[Delimiter=",", Columns=9, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"DateKey", Int64.Type}, {"Date", type date}, {"Year", Int64.Type}, {"Quarter", type text}, {"MonthNumber", Int64.Type}, {"Month", type text}, {"YearMonth", type date}, {"Week", Int64.Type}, {"IsWeekend", type logical}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,69 @@
+relationship cb4aeccd-61c7-44b8-ae6e-b42f87841b5c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.Date
+	toColumn: LocalDateTable_3141aaae-aad9-4339-b7c6-90e92ec6e155.Date
+
+relationship 1016124b-4074-4ed9-ac9f-ba46bcf1a32e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.YearMonth
+	toColumn: LocalDateTable_865e709b-9a31-4968-8fe0-286b08a5b8d7.Date
+
+relationship f30f6f9d-c716-4dfb-b2dd-edfd02517099
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimPromotion.StartDate
+	toColumn: LocalDateTable_7b9a5e17-4582-466e-939b-131fc7ce8a18.Date
+
+relationship 9fb5ebd6-5f4f-4c58-a78b-c3fdce386355
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimPromotion.EndDate
+	toColumn: LocalDateTable_12a0556d-d34a-4bb7-a436-43d77947d741.Date
+
+relationship fe9b6d32-0be9-49c2-a1d4-698dc3cfa67b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimStore.OpeningDate
+	toColumn: LocalDateTable_21efeca4-e428-4580-bbcb-e15527515047.Date
+
+relationship AutoDetected_8a26eb1c-6b87-40f7-a7b8-b79eb40cdeef
+	fromColumn: FactCustomerEvents.CustomerKey
+	toColumn: DimCustomer.CustomerKey
+
+relationship AutoDetected_08d94fd1-2a66-4caf-8874-74a206429a24
+	fromColumn: FactCustomerEvents.DateKey
+	toColumn: DimDate.DateKey
+
+relationship AutoDetected_d2fb281c-a8bf-41ac-8cc5-5f153103f325
+	fromColumn: FactCustomerEvents.StoreKey
+	toColumn: DimStore.StoreKey
+
+relationship AutoDetected_9797c05b-68ef-4340-834a-073685825232
+	fromColumn: FactInventory.DateKey
+	toColumn: DimDate.DateKey
+
+relationship AutoDetected_7f4b72c5-95b3-4311-ac9b-92523f633a9b
+	fromColumn: FactInventory.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship AutoDetected_c733eb5c-36b4-4a3a-8e90-bfeffdc6eb8c
+	fromColumn: FactInventory.StoreKey
+	toColumn: DimStore.StoreKey
+
+relationship AutoDetected_c6edfb5f-9026-427d-a38e-aa516199f5d8
+	fromColumn: FactSales.CustomerKey
+	toColumn: DimCustomer.CustomerKey
+
+relationship AutoDetected_0bfece86-a69f-4076-9efc-6757ce53d5e2
+	fromColumn: FactSales.DateKey
+	toColumn: DimDate.DateKey
+
+relationship AutoDetected_a05a90ce-9bff-4621-b63c-f9ebc250adb8
+	fromColumn: FactSales.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship AutoDetected_f707b79f-ede8-41df-b14b-72fad567cd60
+	fromColumn: FactSales.PromotionKey
+	toColumn: DimPromotion.PromotionKey
+
+relationship AutoDetected_9b5ea6c8-746c-41a5-b1de-adc993dd1820
+	fromColumn: FactSales.StoreKey
+	toColumn: DimStore.StoreKey
+
